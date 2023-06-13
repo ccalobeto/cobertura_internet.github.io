@@ -18,7 +18,7 @@ d. Manualmente arreglar algunas inconsistencias que se presentan al desactivar l
 e. Guardar el resultado como csv en la carpeta **"data/cobertura_movil_3Q2022.csv"**
 
 ## Transformación
-Los datos preparados no resultan convenientes para la visualización. Antes es necesario convertirlo de pivot a long format, usando el siguiente [script](https://github.com/ccalobeto/cobertura_internet/blob/master/parser_internet_coverage.ipynb) de python. 
+Los datos preparados no resultan convenientes para la visualización. Antes es necesario convertirlo de pivot a long format usando el siguiente script en python [parser_internet_coverage.ipynb](https://github.com/ccalobeto/cobertura_internet/blob/master/parser_internet_coverage.ipynb). 
 
 ### Ejemplo de la transformación
 <img src="images/pivot_to_longer_format.jpeg" width="480" height="300">
