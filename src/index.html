@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Cobertura de Internet</title>
+	<link rel="stylesheet" type="text/css" href="css/base.css">
+	<link rel="stylesheet" type="text/css" href="css/visualization.css">
+</head>
+<body>
+	<div class="container">
+		<h1>Cobertura de Internet</h1>
+		<div class="intro">This visualization shows a collection of cetacean species. Each circle represents a cetacean, and its position on the scatterplot reveals its size and estimated population. The area of the circles is proportional to the weight of each cetacean, and their color represents their conservation status, according to the <a href="https://www.iucn.org/">International Union for Conservation of Nature (IUCN)</a>.</div>
+		<div class="filters-container">
+			<h2>Select el tipo de tecnología</h2>
+			<div id="filters"></div>
+		</div>
+		<div class="responsive-svg-container">
+			<div id="perumap"></div>
+		</div>
+	</div>
+
+	<!-- Load your scripts here -->
+	<!-- <script src="https://d3js.org/d3.v7.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+	<script src="js/perumap.js"></script> -->
+	<script type="module" src="./js/shared-constants.js"></script>
+	<script type="module" src="./js/load-data.js"></script>
+</body>
+</html>
