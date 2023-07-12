@@ -26,4 +26,4 @@ Los datos preparados no resultan convenientes para la visualización. Antes es n
 La salida de este script en python es el archivo json ubicado en **data/entel_movil_parsed.json**
 
 ## Inclusión de la cartografía de Perú
-La metodología para la construcción de los límites geográficos a nivel de distrito, provincia y departamento se encuentra en [pe-atlas]https://github.com/ccalobeto/pe-atlas
+La metodología para la construcción de los límites geográficos a nivel de distrito, provincia y departamento se encuentra en [pe-atlas](https://github.com/ccalobeto/pe-atlas)
