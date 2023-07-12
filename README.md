@@ -23,4 +23,4 @@ Los datos preparados no resultan convenientes para la visualización. Antes es n
 ### Ejemplo de la transformación
 <img src="images/pivot_to_longer_format.jpeg" width="480" height="300">
 
-La salida de este script en python es el archivo transformado **data/entel_movil_parsed.csv**
+La salida de este script en python es el archivo json **data/entel_movil_parsed.json**
