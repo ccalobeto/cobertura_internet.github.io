@@ -4,7 +4,6 @@ import { select } from "d3-selection"
 import * as d3 from "d3"
 //import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm"
 
-
 export const drawPeruMap= (data, response) => {
   
   const width = 800
@@ -12,19 +11,19 @@ export const drawPeruMap= (data, response) => {
   const radius = 3
 
   const coverageInfo = [
-  {id: "2g", color: "#a6cee3"},
-  {id: "3g", color: "#b2df8a"},
-  {id: "4g", color: "#1f78b4"},
-  {id: "5g", color: "#33a02c"},
+  {id: "2g", color: "#bdc9e1"},
+  {id: "3g", color: "#67a9cf"},
+  {id: "4g", color: "#02818a"},
+  {id: "5g", color: "#02818a"},
   ]
 
   pe = response
-  const districts = topojson.feature(pe, pe.objects.districts).features
+  // const districts = topojson.feature(pe, pe.objects.districts).features
   const provinces = topojson.feature(pe, pe.objects.provinces).features
   const departments = topojson.feature(pe, pe.objects.departments).features
-  const provincesmesh = topojson.mesh(pe, pe.objects.provinces, (a, b) => a !== b).coordinates
-  const departmentsmesh = topojson.mesh(pe, pe.objects.departments, (a, b) => a !== b)
-  const nation = topojson.mesh(pe, pe.objects.districts.geometries)
+  // const provincesmesh = topojson.mesh(pe, pe.objects.provinces, (a, b) => a !== b).coordinates
+  // const departmentsmesh = topojson.mesh(pe, pe.objects.departments, (a, b) => a !== b)
+  // const nation = topojson.mesh(pe, pe.objects.districts.geometries)
 
   // setting scales
   const colorScale = d3.scaleOrdinal()
@@ -44,20 +43,19 @@ export const drawPeruMap= (data, response) => {
     .append("svg")
       .attr("viewBox", `0 0 ${ width } ${ height }`)
 
-  const chart = svg
+  const cartography = svg
     .append("g")
 
-  chart
+  cartography
     .selectAll(".department")
     .data(departments)
     .join("path")
       .attr("class", "department")
       .attr("d", d => geoPathGenerator(d))
-      //.attr("fill", "#f8fcff")
       .attr("stroke", "#09131b")
       .attr("stroke-opacity", 0.5)
 
-  chart
+  cartography
     .selectAll(".province")
     .data(provinces)
     .join("path")
@@ -89,6 +87,8 @@ export const drawPeruMap= (data, response) => {
     const r = e.target.getAttribute("r")
     const text = `${d.centro_poblado}, ${d.region}`
 
+    // console.log("text:", text)
+
     select(".tooltip")
       .attr("x", cx)
       .attr("y", cy - r - 5)
@@ -109,7 +109,7 @@ export const drawPeruMap= (data, response) => {
 
   const updateTooltip = () => {
 
-    d3.selectAll(".data-county")
+    d3.selectAll(".data")
       .on("mouseenter", showTooltip)
       .on("mouseleave", hideTooltip)
       .transition()
@@ -122,10 +122,10 @@ export const drawPeruMap= (data, response) => {
     .append("g")
 
     countryDots //
-      .selectAll(".data-county")
+      .selectAll(".data")
       .data(data)
       .join("circle")
-        .attr("class", "data-county") //d => `data-county-${d.tecnologia}`
+        .attr("class", "data") //d => `data-county-${d.tecnologia}`
         .attr("cx", d => projection([d.lon, d.lat])[0])
         .attr("cy", d => projection([d.lon, d.lat])[1])
         .attr("fill", d => colorScale(d.tecnologia))
@@ -134,26 +134,23 @@ export const drawPeruMap= (data, response) => {
     
     updateTooltip()
 
-    // d3.selectAll(".checkbox")
-    //   .on("change", d => {
+    d3.selectAll(".checkbox")
+      .on("change", d => {
 
-    //     let checkboxSelection = d.target.value
-    //     let pointBase = svg
-    //       .selectAll(".data-county-" + checkboxSelection)
-    //       .transition()
-    //       .duration(1000)
+        let checkboxSelection = d.target.value
+        let opacity = d.target.checked ? 1 : 0
 
-    //     if(d.target.checked){
-    //       pointBase
-    //         .style("opacity", 1)
-    //     } else {
-    //       pointBase
-    //         .style("opacity", 0)
-    //     }
-    //   })
+        svg
+          .selectAll(".data")
+          .filter(d => {
+            return checkboxSelection == d.tecnologia
+          })
+          .style("opacity", opacity)
+      })
       
   }
 
   appendTooltip()
   displayCountry()
+
 };
