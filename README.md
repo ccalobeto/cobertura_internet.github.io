@@ -2,7 +2,7 @@
 
 El presente repositorio muestra el proceso de preparación y transformación de datos cuya fuente en pdf contiene las tecnologías a nivel nacional del servicio de internet de Entel.  
 
-Para ello la data se obtuvo del [siguiente enlace ](https://www.entel.pe/wp-content/uploads/2022/11/listado-ccpp-con-cobertura-movil-3Q2022.pdf) y que corresponde a noviembre del 2022. Este documento en pdf debe ser descargado, preparado en csv y luego transformado para poder visualizarlo en un mapa.
+La data se obtuvo del [siguiente enlace ](https://www.entel.pe/wp-content/uploads/2022/11/listado-ccpp-con-cobertura-movil-3Q2022.pdf) y corresponde a noviembre del 2022. Este documento en pdf debe ser descargado, preparado en csv y luego transformado a json para poder visualizarlo en un mapa.
 
 ## Preparación
 La data que está en formato pdf debe convertirse a **csv** para poder manipularlo. Los pasos para la conversión son:
