@@ -1,7 +1,9 @@
 import * as topojson from "topojson-client"
 import { geoMercator, geoPath } from "d3-geo"
 import { select } from "d3-selection"
+import { scaleOrdinal } from "d3-scale"
 import * as d3 from "d3"
+import { checkboxLegend } from "./checkboxLegend.js"
 //import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm"
 
 export const drawPeruMap= (data, response) => {
@@ -11,10 +13,10 @@ export const drawPeruMap= (data, response) => {
   const radius = 3
 
   const coverageInfo = [
-  {id: "2g", color: "#bdc9e1"},
-  {id: "3g", color: "#67a9cf"},
-  {id: "4g", color: "#02818a"},
-  {id: "5g", color: "#02818a"},
+  {id: "2g", color: "#984ea3"},
+  {id: "3g", color: "#4daf4a"},
+  {id: "4g", color: "#377eb8"},
+  {id: "5g", color: "#e41a1c"},
   ]
 
   pe = response
@@ -65,6 +67,18 @@ export const drawPeruMap= (data, response) => {
       .attr("stroke", "#09131b")
       .attr("stroke-opacity", 0.15)
 
+  // working with legend
+  const legend = svg
+    .append("g")
+      .attr("transform", `translate(0, 20)`)
+
+  checkboxLegend(legend, {
+    colorScale,
+    width: 20,
+    spacing: 30, 
+    textOffset: 25
+  })
+  
   // working with tooltips
   const appendTooltip = () => {
     
@@ -118,6 +132,10 @@ export const drawPeruMap= (data, response) => {
 
   const displayCountry = () => {
 
+    let checkedTechnologies = coverageInfo.map(d => d.id)
+
+    // console.log(checkedTechnologies)
+
     const countryDots = svg
     .append("g")
 
@@ -134,16 +152,23 @@ export const drawPeruMap= (data, response) => {
     
     updateTooltip()
 
+
+
     d3.selectAll(".checkbox")
       .on("change", d => {
 
         let checkboxSelection = d.target.value
         let opacity = d.target.checked ? 1 : 0
 
+        console.log("checked", d.target.checked)
+        console.log("unchecked", d.target.unChecked)
+
+        checkedTechnologies = ["4g"]
+
         svg
           .selectAll(".data")
           .filter(d => {
-            return checkboxSelection == d.tecnologia
+            return checkboxSelection === d.tecnologia
           })
           .style("opacity", opacity)
       })
