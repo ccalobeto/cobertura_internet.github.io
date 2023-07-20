@@ -21,8 +21,6 @@ export const checkboxLegend = (selection, props) => {
   groupsEnter
     .append("rect")
     .merge(groups.select("rect"))
-      // .attr("x", (d, i) => {i * (height + spacing)})
-      // .attr("y", 0)
       .attr("width", width)
       .attr("height", width)
       .attr("fill", colorScale)
@@ -31,9 +29,8 @@ export const checkboxLegend = (selection, props) => {
     .append("text")
     .merge(groups.select("text"))
       .text(d => d)
-      // .attr("dy", "0.32em")
+      .attr("dy", "1em")
       .attr("x", textOffset)
-      .attr("y", textOffset / 2)
   
   // console.log("labels", groupsEnter)
 

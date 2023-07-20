@@ -147,7 +147,7 @@ export const drawPeruMap= (data, response) => {
         .attr("cx", d => projection([d.lon, d.lat])[0])
         .attr("cy", d => projection([d.lon, d.lat])[1])
         .attr("fill", d => colorScale(d.tecnologia))
-        .attr("fill-opacity", 0.4)
+        .attr("fill-opacity", 1)
         .attr("r", radius)
     
     updateTooltip()
