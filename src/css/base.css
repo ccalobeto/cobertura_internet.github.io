@@ -80,3 +80,8 @@ a:hover, a:focus {
 .sources li {
   margin: 5px 0;
 }
+
+.tick text {
+  font-size: 1em;
+  font-family: sans-serif;
+}
