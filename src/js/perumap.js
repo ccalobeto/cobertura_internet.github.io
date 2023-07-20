@@ -28,7 +28,7 @@ export const drawPeruMap= (data, response) => {
   // const nation = topojson.mesh(pe, pe.objects.districts.geometries)
 
   // setting scales
-  const colorScale = d3.scaleOrdinal()
+  const colorScale = scaleOrdinal()
     .domain(coverageInfo.map(f => f.id))
     .range(coverageInfo.map(f => f.color))
 

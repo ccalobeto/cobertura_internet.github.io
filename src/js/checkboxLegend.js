@@ -1,4 +1,3 @@
-import { range } from 'd3'
 
 export const checkboxLegend = (selection, props) => {
 
