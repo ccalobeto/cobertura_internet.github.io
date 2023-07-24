@@ -10,7 +10,8 @@ export const drawPeruMap= (data, response) => {
   
   const width = 800
   const height = 800
-  const radius = 3
+  const radius = 2
+  let filtered_data = data
 
   const coverageInfo = [
   {id: "2g", color: "#984ea3"},
@@ -41,12 +42,17 @@ export const drawPeruMap= (data, response) => {
     .projection(projection)
 
   // drawing all stages in the map
-  const svg = select("#perumap")
+  const frame = select("#perumap")
     .append("svg")
       .attr("viewBox", `0 0 ${ width } ${ height }`)
 
-  const cartography = svg
+  const canvas = frame.append("g")
+    .attr("transform", `translate(0, 0)`)
+    .attr("class", "canvas")
+
+  const cartography = canvas
     .append("g")
+      .attr("class", "cartography")
 
   cartography
     .selectAll(".department")
@@ -68,8 +74,9 @@ export const drawPeruMap= (data, response) => {
       .attr("stroke-opacity", 0.15)
 
   // working with legend
-  const legend = svg
+  const legend = canvas
     .append("g")
+      .attr("class", "legend-container")
       .attr("transform", `translate(0, 20)`)
 
   checkboxLegend(legend, {
@@ -82,8 +89,9 @@ export const drawPeruMap= (data, response) => {
   // working with tooltips
   const appendTooltip = () => {
     
-    tooltip = svg
+    tooltip = canvas
       .append("g")
+        .attr("class", "tooltip-container")
 
     tooltip 
       .append("text")
@@ -99,9 +107,7 @@ export const drawPeruMap= (data, response) => {
     const cx = e.target.getAttribute("cx")
     const cy = e.target.getAttribute("cy")
     const r = e.target.getAttribute("r")
-    const text = `${d.centro_poblado}, ${d.region}`
-
-    // console.log("text:", text)
+    const text = `${d.tecnologia}:${d.centro_poblado}, ${d.region}`
 
     select(".tooltip")
       .attr("x", cx)
@@ -123,7 +129,7 @@ export const drawPeruMap= (data, response) => {
 
   const updateTooltip = () => {
 
-    d3.selectAll(".data")
+    d3.selectAll(".data-point")
       .on("mouseenter", showTooltip)
       .on("mouseleave", hideTooltip)
       .transition()
@@ -132,47 +138,59 @@ export const drawPeruMap= (data, response) => {
 
   const displayCountry = () => {
 
-    let checkedTechnologies = coverageInfo.map(d => d.id)
+    const data_canvas = canvas
+      .append("g")
+        .attr("class", "data-canvas")
 
-    // console.log(checkedTechnologies)
+    let circles = data_canvas
+      .selectAll(".data-point")
 
-    const countryDots = svg
-    .append("g")
-
-    countryDots //
-      .selectAll(".data")
-      .data(data)
+    circles 
+      .data(data, d => d.centro_poblado)  
       .join("circle")
-        .attr("class", "data") //d => `data-county-${d.tecnologia}`
+        .attr("class", "data-point")
         .attr("cx", d => projection([d.lon, d.lat])[0])
         .attr("cy", d => projection([d.lon, d.lat])[1])
         .attr("fill", d => colorScale(d.tecnologia))
         .attr("fill-opacity", 1)
         .attr("r", radius)
-    
+
     updateTooltip()
-
-
 
     d3.selectAll(".checkbox")
       .on("change", d => {
 
-        let checkboxSelection = d.target.value
-        let opacity = d.target.checked ? 1 : 0
+        let tecnologia = d.target.value
+        // let opacity = d.target.checked ? 1 : 0
 
-        console.log("checked", d.target.checked)
-        console.log("unchecked", d.target.unChecked)
+        if (d.target.checked) {
+          let new_data = data.filter(row => row.tecnologia === tecnologia)
+          filtered_data = filtered_data.concat(new_data)
+        } else {
+          filtered_data = filtered_data.filter(row => row.tecnologia !== tecnologia)
+        }
 
-        checkedTechnologies = ["4g"]
+        console.log("filtered_data:", filtered_data)
 
-        svg
-          .selectAll(".data")
-          .filter(d => {
-            return checkboxSelection === d.tecnologia
-          })
-          .style("opacity", opacity)
+        circles = data_canvas
+          .selectAll(".data-point")
+          .data(filtered_data, d => d.centro_poblado)
+
+        circles
+          .join("circle")
+            .attr("class", "data-point")
+
+        circles.exit().remove()
+    
+        circles 
+          .attr("cx", d => projection([d.lon, d.lat])[0])
+          .attr("cy", d => projection([d.lon, d.lat])[1])
+          .attr("r", radius)
+          .attr("fill", d => colorScale(d.tecnologia))
+
+          updateTooltip()
+
       })
-      
   }
 
   appendTooltip()
