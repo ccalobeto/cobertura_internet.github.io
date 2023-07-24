@@ -146,13 +146,13 @@ export const drawPeruMap= (data, response) => {
       .selectAll(".data-point")
 
     circles 
-      .data(data, d => d.centro_poblado)  
+      .data(filtered_data, d => d.centro_poblado)  
       .join("circle")
         .attr("class", "data-point")
+        .attr("fill-opacity", 1)
         .attr("cx", d => projection([d.lon, d.lat])[0])
         .attr("cy", d => projection([d.lon, d.lat])[1])
         .attr("fill", d => colorScale(d.tecnologia))
-        .attr("fill-opacity", 1)
         .attr("r", radius)
 
     updateTooltip()
@@ -175,20 +175,16 @@ export const drawPeruMap= (data, response) => {
         circles = data_canvas
           .selectAll(".data-point")
           .data(filtered_data, d => d.centro_poblado)
-
-        circles
           .join("circle")
             .attr("class", "data-point")
+            .attr("cx", d => projection([d.lon, d.lat])[0])
+            .attr("cy", d => projection([d.lon, d.lat])[1])
+            .attr("r", radius)
+            .attr("fill", d => colorScale(d.tecnologia))
 
         circles.exit().remove()
-    
-        circles 
-          .attr("cx", d => projection([d.lon, d.lat])[0])
-          .attr("cy", d => projection([d.lon, d.lat])[1])
-          .attr("r", radius)
-          .attr("fill", d => colorScale(d.tecnologia))
 
-          updateTooltip()
+        updateTooltip()
 
       })
   }
