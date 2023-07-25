@@ -36,7 +36,7 @@ export const drawPeruMap= (data, response) => {
   // define the projection and generator
   const projection = geoMercator()
     .scale(2000)
-    .translate([3000, 30])
+      .translate([2900, 0])
 
   const geoPathGenerator = geoPath()
     .projection(projection)
@@ -47,7 +47,7 @@ export const drawPeruMap= (data, response) => {
       .attr("viewBox", `0 0 ${ width } ${ height }`)
 
   const canvas = frame.append("g")
-    .attr("transform", `translate(0, 0)`)
+    //.attr("transform", `translate(0, 0)`)
     .attr("class", "canvas")
 
   const cartography = canvas
@@ -107,7 +107,7 @@ export const drawPeruMap= (data, response) => {
     const cx = e.target.getAttribute("cx")
     const cy = e.target.getAttribute("cy")
     const r = e.target.getAttribute("r")
-    const text = `${d.tecnologia}:${d.centro_poblado}, ${d.region}`
+    const text = `${d.centro_poblado}, ${d.region}`
 
     select(".tooltip")
       .attr("x", cx)
