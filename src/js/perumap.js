@@ -1,8 +1,9 @@
 import * as topojson from "topojson-client"
 import { geoMercator, geoPath } from "d3-geo"
-import { select } from "d3-selection"
+import { select, selectAll } from "d3-selection"
 import { scaleOrdinal } from "d3-scale"
-import * as d3 from "d3"
+import { transition } from "d3-transition"
+// import * as d3 from "d3"
 import { checkboxLegend } from "./checkboxLegend.js"
 //import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm"
 
@@ -129,7 +130,7 @@ export const drawPeruMap= (data, response) => {
 
   const updateTooltip = () => {
 
-    d3.selectAll(".data-point")
+    selectAll(".data-point")
       .on("mouseenter", showTooltip)
       .on("mouseleave", hideTooltip)
       .transition()
@@ -157,7 +158,7 @@ export const drawPeruMap= (data, response) => {
 
     updateTooltip()
 
-    d3.selectAll(".checkbox")
+    selectAll(".checkbox")
       .on("change", d => {
 
         let tecnologia = d.target.value
@@ -169,8 +170,6 @@ export const drawPeruMap= (data, response) => {
         } else {
           filtered_data = filtered_data.filter(row => row.tecnologia !== tecnologia)
         }
-
-        console.log("filtered_data:", filtered_data)
 
         circles = data_canvas
           .selectAll(".data-point")
